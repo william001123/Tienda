@@ -1,0 +1,44 @@
+﻿@model List<clsEmpleado>
+
+@{
+    ViewData["Title"] = "vEmpleadoIni";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Empleados</h1>
+    @*<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>*@
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Listado de Empleados
+    </div>
+    <div class="card-body">
+
+        <a asp-action="vEmpleadoDet" asp-controller="Empleado" asp-route-_IdEmpleado="0" class="btn btn-success btn-sm">Nueva Empleado</a>
+        @*<a asp-action="test" asp-controller="Home" class="btn btn-success">test</a>*@
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>                    
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.strDocumento</td>
+                        <td>@item.strNombre</td>
+                        <td>
+                            <a asp-action="vEmpleadoDet" asp-controller="Empleado" asp-route-_IdEmpleado="@item.IdEmpleado" class="btn btn-primary btn-sm">Editar</a>
+                            <a asp-action="Eliminar" asp-controller="Empleado" asp-route-_IdEmpleado="@item.IdEmpleado" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

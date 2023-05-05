@@ -1,0 +1,132 @@
+﻿@model clsOrden
+@{
+    ViewData["Title"] = "vOrdenDet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    document.addEventListener("DOMContentLoaded", () => {
+        IdOrden = document.getElementById('IdOrden').value;
+        strEstado = document.getElementById('strEstado').value;
+
+        if (IdOrden != 0) {
+            div = document.getElementById('divProductos');
+            div.style.display = '';
+        }
+        else {
+            div = document.getElementById('divProductos');
+            div.style.display = 'none';
+        }
+
+        if (strEstado != "Procesada") {
+            btnGuardar = document.getElementById('btnGuardar')
+            btnGuardar.style.display = '';
+        }
+        else {
+            btnGuardar = document.getElementById('btnGuardar');
+            btnGuardar.style.display = 'none';
+        }
+
+        
+
+    });
+
+</script>
+
+<link href=" ~/css/select2.min.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="row">
+    <div class="col-1">
+        <a asp-action="vOrdenIni" asp-controller="Orden" class="btn btn-warning btn-sm">Volver</a>
+    </div>
+</div>
+<br />
+<div class="row">
+
+    <div class="col-5">
+        <div class="card">
+            <div class="card-header">
+                @ViewBag.Accion
+            </div>
+            <div class="card-body">
+
+                <form asp-action="GuardarCambios" asp-controller="Orden" method="post">
+
+                    <input id="IdOrden" type="hidden" asp-for="IdOrden" />
+
+                    <div class="mb-2">
+                        <label class="form-label">Nro. de orden</label>
+                        <input type="text" disabled class="form-control form-control-sm" asp-for="strOrden" />
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label">Proveedor</label>                        
+                        @Html.DropDownListFor(m => m.IdProveedor, (IEnumerable<SelectListItem>)ViewData["Proveedores"], "Seleccionar", new {@class ="form-control select2" })
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label">Fecha Orden</label>
+                        <input type="datetime-local" disabled class="form-control form-control-sm" asp-for="dtFechaOrden" />
+                    </div>
+
+                    <div style="display:none" class="mb-2">
+                        <label class="form-label">Fecha Entrega</label>
+                        <input type="datetime-local" disabled class="form-control form-control-sm" asp-for="dtFechaEntrega" />
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label">Estado</label>
+                        <input id="strEstado" type="text" disabled class="form-control form-control-sm" asp-for="strEstado" />
+                    </div>
+
+                    <button id="btnGuardar" type="submit" class="btn btn-success btn-sm">@ViewBag.boton</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="divProductos" class="col-5">
+        <div class="card">
+            <div class="card-header">
+                Productos
+            </div>
+            <div class="card-body">
+                <a asp-action="vOrdenDetalleDet" asp-controller="OrdenDetalle" asp-route-_IdOrden="@Model.IdOrden" asp-route-_IdOrdenDetalle="0" class="btn btn-success btn-sm">Nuevo Producto</a>
+                <hr />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrdenDetalles)
+                        {
+                            <tr>
+                                <td>@item.Producto.strNombre</td>
+                                <td>@item.numCantidad</td>
+                                <td>@item.numPrecio</td>
+                                <td>
+                                    <a asp-action="vOrdenDetalleDet" asp-controller="OrdenDetalle" asp-route-_IdOrdenDetalle="@item.IdOrdenDetalle" class="btn btn-primary btn-sm">Editar</a>
+                                    <a asp-action="Eliminar" asp-controller="OrdenDetalle" asp-route-_IdOrden="@item.IdOrden" asp-route-_IdOrdenDetalle="@item.IdOrdenDetalle" class="btn btn-danger btn-sm">Eliminar</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+    </script>
+}

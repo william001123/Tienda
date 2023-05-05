@@ -1,0 +1,45 @@
+﻿@model List<clsRecepcion>
+
+@{
+    ViewData["Title"] = "vRecepcionIni";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Recepciones</h1>    
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Listado de Recepciones
+    </div>
+    <div class="card-body">
+        <a asp-action="vRecepcionDet" asp-controller="Recepcion" asp-route-_IdRecepcion="0" class="btn btn-success btn-sm">Nueva Recepcion</a>
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nro de recepción</th>
+                    <th>Nro de factura</th>
+                    <th>Observaciones</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>                        
+                        <td>@item.strRecepcion</td>
+                        <td>@item.strFactura</td>
+                        <td>@item.strObservaciones</td>
+                        <td>@item.strEstado</td>                        
+                        <td>
+                            <a asp-action="vRecepcionDet" asp-controller="Recepcion" asp-route-_IdRecepcion="@item.IdRecepcion" class="btn btn-primary btn-sm">Editar</a>
+                            <a asp-action="Eliminar" asp-controller="Recepcion" asp-route-_IdRecepcion="@item.IdRecepcion" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

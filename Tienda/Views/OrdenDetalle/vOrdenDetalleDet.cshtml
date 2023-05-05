@@ -1,0 +1,56 @@
+﻿@model clsOrdenDetalle
+@{
+    ViewData["Title"] = "vOrdenDet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href=" ~/css/select2.min.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="row">
+    <div class="col-1">
+        <a asp-action="vOrdenDet" asp-route-_IdOrden="@Model.IdOrden" asp-controller="Orden" class="btn btn-warning btn-sm">Volver</a>
+    </div>
+</div>
+<br />
+<div class="row">
+
+    <div class="col-5">
+        <div class="card">
+            <div class="card-header">
+                @ViewBag.Accion
+            </div>
+            <div class="card-body">
+
+                <form asp-action="GuardarCambios" asp-controller="OrdenDetalle" method="post">
+
+                    <input type="hidden" asp-for="IdOrden" />
+
+                    <div class="mb-2">
+                        <label class="form-label">Producto</label>
+                        @Html.DropDownListFor(m => m.IdProducto, (IEnumerable<SelectListItem>)ViewData["Producto"], "Seleccionar", new {@class ="form-control select2" })
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label">Cantidad</label>
+                        <input type="number" class="form-control form-control-sm" asp-for="numCantidad" />
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label">Precio</label>
+                        <input type="number" class="form-control form-control-sm" asp-for="numPrecio" />
+                    </div>
+                    <button type="submit" class="btn btn-success btn-sm">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+    </script>
+}

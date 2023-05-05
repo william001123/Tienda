@@ -1,0 +1,49 @@
+﻿@model List<clsProducto>
+
+@{
+    ViewData["Title"] = "vProductoIni";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Producto</h1>
+    @*<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>*@
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Listado de Productos
+    </div>
+    <div class="card-body">
+
+        <a asp-action="vProductoDet" asp-controller="Producto" asp-route-_IdProducto="0" class="btn btn-success btn-sm">Nueva Producto</a>
+        
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>                         
+                    <th>Tipo Unidad</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.strNombre</td>                        
+                        <td>@item.TipoUnidad.strTipoUnidad</td>
+                        <td>@item.numCantidad</td>
+                        <td>@item.numPrecio</td>
+                        <td>
+                            <a asp-action="vProductoDet" asp-controller="Producto" asp-route-_IdProducto="@item.IdProducto" class="btn btn-primary btn-sm">Editar</a>
+                            <a asp-action="Eliminar" asp-controller="Producto" asp-route-_IdProducto="@item.IdProducto" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

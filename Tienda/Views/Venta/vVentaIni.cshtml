@@ -1,0 +1,43 @@
+﻿@model List<clsVenta>
+
+@{
+    ViewData["Title"] = "vVentaIni";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Ventas</h1>    
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Listado de Ventas
+    </div>
+    <div class="card-body">        
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nro de venta</th>
+                    <th>Fecha</th>                    
+                    <th>numTotal</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>                        
+                        <td>@item.strVenta</td>
+                        <td>@item.dtFecha</td>
+                        <td>@item.numTotal</td>                        
+                        <td>@item.strEstado</td>                        
+                        <td>
+                            <a asp-action="vVentaDet" asp-controller="Venta" asp-route-_IdVenta="@item.IdVenta" class="btn btn-primary btn-sm">Ver</a>                            
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

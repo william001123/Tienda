@@ -1,0 +1,47 @@
+﻿@model List<clsOrden>
+
+@{
+    ViewData["Title"] = "vOrdenIni";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Órdenes</h1>
+    @*<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>*@
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Listado de Órdenes
+    </div>
+    <div class="card-body">
+        <a asp-action="vOrdenDet" asp-controller="Orden" asp-route-_IdOrden="0" class="btn btn-success btn-sm">Nueva Orden</a>        
+        <hr />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Orden</th>
+                    <th>Fecha Orden</th>
+                    <th>Fecha Entrega</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.strOrden</td>
+                        <td>@item.dtFechaOrden</td>
+                        <td>@item.dtFechaEntrega</td>
+                        <td>@item.strEstado</td>
+                        <td>
+                            <a asp-action="vOrdenDet" asp-controller="Orden" asp-route-_IdOrden="@item.IdOrden" class="btn btn-primary btn-sm">Editar</a>
+                            <a asp-action="Eliminar" asp-controller="Orden" asp-route-_IdOrden="@item.IdOrden" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>

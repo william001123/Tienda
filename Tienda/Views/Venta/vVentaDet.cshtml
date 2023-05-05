@@ -1,0 +1,97 @@
+﻿@model clsVenta
+@{
+    ViewData["Title"] = "vVentaDet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    document.addEventListener("DOMContentLoaded", () => {
+        IdVenta = document.getElementById('IdVenta').value;
+
+        if (IdVenta != 0) {
+            div = document.getElementById('divProductos');
+            div.style.display = '';
+        }
+        else {
+            div = document.getElementById('divProductos');
+            div.style.display = 'none';
+        }
+
+    });
+
+</script>
+
+<div class="row">
+    <div class="col-1">
+        <a asp-action="vVentaIni" asp-controller="Venta" class="btn btn-warning btn-sm">Volver</a>
+    </div>
+</div>
+<br />
+<div class="row">
+
+    <div class="col-5">
+        <div class="card">
+            <div class="card-header">
+                @ViewBag.Accion
+            </div>
+            <div class="card-body">
+
+                <form>
+
+                    <input id="IdVenta" type="hidden" asp-for="IdVenta" />
+
+                    <div class="mb-2">
+                        <label class="form-label">Nro. de venta</label>
+                        <input type="text" disabled class="form-control form-control-sm" asp-for="strVenta" />
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label">Fecha</label>                        
+                        <input type="datetime-local" disabled class="form-control form-control-sm" asp-for="dtFecha" />
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label">Total</label>
+                        <input type="text" class="form-control form-control-sm" asp-for="numTotal" />
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label">Estado</label>
+                        <input type="text" disabled class="form-control form-control-sm" asp-for="strEstado" />
+                    </div>                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="divProductos" class="col-5">
+        <div class="card">
+            <div class="card-header">
+                Productos
+            </div>
+            <div class="card-body">                
+                <hr />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.VentaDetalles)
+                        {
+                            <tr>
+                                <td>@item.Producto.strNombre</td>
+                                <td>@item.numCantidad</td>
+                                <td>@item.numPrecio</td>                                
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

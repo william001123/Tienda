@@ -1,0 +1,130 @@
+﻿@model clsRecepcion
+@{
+    ViewData["Title"] = "vRecepcionDet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    document.addEventListener("DOMContentLoaded", () => {
+        IdRecepcion = document.getElementById('IdRecepcion').value;
+        strEstado = document.getElementById('strEstado').value;
+
+        if (IdRecepcion != 0) {
+            div = document.getElementById('divProductos');
+            div.style.display = '';
+        }
+        else {
+            div = document.getElementById('divProductos');
+            div.style.display = 'none';
+        }        
+
+        if (strEstado != "Procesada") {
+            btnGuardar = document.getElementById('btnGuardar')
+            btnGuardar.style.display = '';
+        }
+        else {
+            btnGuardar = document.getElementById('btnGuardar');
+            btnGuardar.style.display = 'none';
+        }
+
+    });
+
+</script>
+
+<link href=" ~/css/select2.min.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="row">
+    <div class="col-1">
+        <a asp-action="vRecepcionIni" asp-controller="Recepcion" class="btn btn-warning btn-sm">Volver</a>
+    </div>
+</div>
+<br />
+<div class="row">
+
+    <div class="col-5">
+        <div class="card">
+            <div class="card-header">
+                @ViewBag.Accion
+            </div>
+            <div class="card-body">
+
+                <form asp-action="GuardarCambios" asp-controller="Recepcion" method="post">
+
+                    <input id="IdRecepcion" type="hidden" asp-for="IdRecepcion" />
+
+                    <div class="mb-2">
+                        <label class="form-label">Nro. de recepción</label>
+                        <input type="text" disabled class="form-control form-control-sm" asp-for="strRecepcion" />
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label">Orden</label>                        
+                        @Html.DropDownListFor(m => m.IdOrden, (IEnumerable<SelectListItem>)ViewData["Ordenes"], "Seleccionar", new {@class ="form-control" })
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label">Factura</label>
+                        <input type="text" class="form-control form-control-sm" asp-for="strFactura" />
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label">Observaciones</label>
+                        <textarea cols="40" rows="5" class="form-control form-control-sm" asp-for="strObservaciones"></textarea>                        
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label">Estado</label>
+                        <input id="strEstado" type="text" disabled class="form-control form-control-sm" asp-for="strEstado" />
+                    </div>
+
+                    <button id="btnGuardar" type="submit" class="btn btn-success btn-sm">@ViewBag.boton</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="divProductos" class="col-5">
+        <div class="card">
+            <div class="card-header">
+                Productos
+            </div>
+            <div class="card-body">
+                <a asp-action="vRecepcionDetalleDet" asp-controller="RecepcionDetalle" asp-route-_IdRecepcion="@Model.IdRecepcion" asp-route-_IdRecepcionDetalle="0" class="btn btn-success btn-sm">Nuevo Producto</a>
+                <hr />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.RecepcionDetalles)
+                        {
+                            <tr>
+                                <td>@item.Producto.strNombre</td>
+                                <td>@item.numCantidad</td>
+                                <td>@item.numPrecio</td>
+                                <td>
+                                    <a asp-action="vRecepcionDetalleDet" asp-controller="RecepcionDetalle" asp-route-_IdRecepcion="@item.IdRecepcion" asp-route-_IdRecepcionDetalle="@item.IdRecepcionDetalle" class="btn btn-primary btn-sm">Editar</a>
+                                    <a asp-action="Eliminar" asp-controller="RecepcionDetalle" asp-route-_IdRecepcion="@item.IdRecepcion" asp-route-_IdRecepcionDetalle="@item.IdRecepcionDetalle" class="btn btn-danger btn-sm">Eliminar</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+    </script>
+}

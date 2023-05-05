@@ -1,0 +1,84 @@
+﻿@model List<clsVentaTemp>
+@{
+    ViewData["Title"] = "vVentaDetalleDet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href=" ~/css/select2.min.css" rel="stylesheet" asp-append-version="true" />
+
+<div class="row">
+    <div class="col-3">
+        <a asp-action="vVentaTemp" asp-controller="Venta" asp-route-vista="0" class="btn btn-success btn-sm">Nueva Venta</a>
+    </div>
+</div>
+<br />
+<div class="row">
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                @ViewBag.Accion
+            </div>
+            <div class="card-body">
+
+                <form asp-action="GuardarTemp" asp-controller="Venta" method="post">
+
+                    @*<input type="hidden" asp-for="IdVentaDetalle" />*@
+
+                    <div class="mb-2">
+                        <label class="form-label">Producto</label>
+                        @Html.DropDownList("IdProducto", (IEnumerable<SelectListItem>)ViewData["Producto"], "Seleccionar", new {@class ="form-control select2" })
+                    </div>
+
+                    <div class="mb-2">
+                        <label class="form-label">Cantidad</label>
+                        <input type="number" class="form-control form-control-sm" name="numCantidad" />
+                    </div>
+                    <button type="submit" class="btn btn-success btn-sm">Adicionar Producto</button>
+                </form>                
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                Productos
+            </div>
+            <div class="card-body">
+                @*<button type="submit" action="GuardarCambiosTemp" asp-controller="Venta" asp-route-vista="0" class="btn btn-success btn-sm">Procesar Venta</button>*@
+                <a asp-action="GuardarCambiosTemp" asp-controller="Venta" asp-route-vista="0" class="btn btn-success btn-sm" method="post">Procesar Venta</a>
+                <hr />
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Producto.strNombre</td>
+                                <td>@item.numCantidad</td>
+                                <td>@item.numPrecio</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts {
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+    </script>
+}
